@@ -8,7 +8,7 @@ from .models import PersonFilmWork
 
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
-    pass  
+    list_display = ('name','description')  
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
@@ -26,4 +26,7 @@ class GenreFilmWorkInline(admin.TabularInline):
     
 @admin.register(FilmWork)
 class FilmWorkAdmin(admin.ModelAdmin):
-    inlines = (GenreFilmWorkInline,PersonFilmWorkInline) 
+    inlines = (GenreFilmWorkInline,PersonFilmWorkInline)
+    list_display = ('title', 'type', 'creation_date', 'rating',)
+    list_filter = ('type','creation_date',)
+    search_fields = ('title', 'description', 'id')   

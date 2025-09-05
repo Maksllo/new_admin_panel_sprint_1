@@ -19,9 +19,9 @@ class UUIDMixin(models.Model):
 
 class Genre(UUIDMixin, TimeStampedMixin):
     # Первым аргументом обычно идёт человекочитаемое название поля
-    name = models.CharField('name', max_length=255)
+    name = models.CharField(_('name'), max_length=255)
     # blank=True делает поле необязательным для заполнения.
-    description = models.TextField('description', blank=True)
+    description = models.TextField(_('description'), blank=True)
 
     def __str__(self):
         return self.name 
@@ -29,7 +29,7 @@ class Genre(UUIDMixin, TimeStampedMixin):
     class Meta:
         # Ваши таблицы находятся в нестандартной схеме. Это нужно указать в классе модели
         db_table = "content\".\"genre"
-        # Следующие два поля отвечают за название модели в интерфейсе
+        # Следующие два поля отвечают за название модели в интерфейсеca
         verbose_name = 'Жанр'
         verbose_name_plural = 'Жанры'
 
@@ -43,6 +43,7 @@ class GenreFilmWork(UUIDMixin):
 
 class Person(UUIDMixin, TimeStampedMixin):
     full_name = models.CharField(max_length=255, blank=False, null=False)
+    
 
     def __str__(self):
         return self.full_name 
@@ -62,19 +63,20 @@ class PersonFilmWork(UUIDMixin):
     class Meta:
         db_table = "content\".\"person_film_work" 
 
+class TypeChoices(models.TextChoices):
+    MOVIE = 'movie', 'Movie'
+    TV_SHOW = 'tv_show', 'TV Show'
+
 class FilmWork(UUIDMixin, TimeStampedMixin):
-    class TypeChoices(models.TextChoices):
-        MOVIE = 'movie', 'Movie'
-        TV_SHOW = 'tv_show', 'TV Show'
-    certificate = models.CharField(_('certificate'), max_length=512, blank=True)
-    title = models.CharField('title', max_length=255, unique=True)
-    description = models.TextField('description', blank=True)
+    # certificate = models.CharField(_('certificate'), max_length=512, blank=True)
+    title = models.CharField(_('title'), max_length=255, unique=True)
+    description = models.TextField(_('description'), blank=True)
     creation_date = models.DateField()
-    type = models.CharField(max_length=20,choices=TypeChoices.choices)
-    rating = models.FloatField('rating', blank=True,
+    type = models.CharField(_('type'),max_length=20,choices=TypeChoices.choices)
+    rating = models.FloatField(_('rating'), blank=True,
                                validators=[MinValueValidator(0),
                                            MaxValueValidator(100)])
-    file_path = models.FileField(_('file'), blank=True, null=True, upload_to='movies/')
+    # file_path = models.FileField(_('file'), blank=True, null=True, upload_to='movies/')
     genres = models.ManyToManyField(Genre, through='GenreFilmWork')
     person = models.ManyToManyField(Person, through='PersonFilmWork')
 
