@@ -76,7 +76,7 @@ class FilmWork(UUIDMixin, TimeStampedMixin):
     rating = models.FloatField(_('rating'), blank=True,
                                validators=[MinValueValidator(0),
                                            MaxValueValidator(100)])
-    # file_path = models.FileField(_('file'), blank=True, null=True, upload_to='movies/')
+    file_path = models.FileField(_('file'), blank=True, null=True, upload_to='movies/')
     genres = models.ManyToManyField(Genre, through='GenreFilmWork')
     person = models.ManyToManyField(Person, through='PersonFilmWork')
 
