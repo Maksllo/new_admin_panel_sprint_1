@@ -33,7 +33,8 @@ CREATE TABLE IF NOT EXISTS content.genre_film_work (
     created TIMESTAMP WITH TIME ZONE,
 
     CONSTRAINT fk_genre FOREIGN KEY (genre_id) REFERENCES genre(id) ON DELETE CASCADE,
-    CONSTRAINT fk_film_work FOREIGN KEY (film_work_id) REFERENCES film_work(id) ON DELETE CASCADE
+    CONSTRAINT fk_film_work FOREIGN KEY (film_work_id) REFERENCES film_work(id) ON DELETE CASCADE,
+    CONSTRAINT uk_genre_film_work UNIQUE (genre_id, film_work_id)
 );
 
 CREATE TABLE IF NOT EXISTS content.person_film_work (
@@ -44,7 +45,8 @@ CREATE TABLE IF NOT EXISTS content.person_film_work (
     created TIMESTAMP WITH TIME ZONE,
 
     CONSTRAINT fk_person FOREIGN KEY (person_id) REFERENCES person(id) ON DELETE CASCADE,
-    CONSTRAINT fk_film_work FOREIGN KEY (film_work_id) REFERENCES film_work(id) ON DELETE CASCADE
+    CONSTRAINT fk_film_work FOREIGN KEY (film_work_id) REFERENCES film_work(id) ON DELETE CASCADE,
+    CONSTRAINT uk_person_film_work UNIQUE (person_id, film_work_id)
 );
 
 CREATE INDEX IF NOT EXISTS idx_genre_film_work_genre_id ON content.genre_film_work(genre_id);

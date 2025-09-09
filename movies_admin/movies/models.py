@@ -50,9 +50,15 @@ class Person(UUIDMixin, TimeStampedMixin):
 
 
 class PersonFilmWork(UUIDMixin):
+
+    class RoleChoices(models.TextChoices):
+        ACTOR = 'AC', _('Actor')
+        DIRECTOR = 'DI', _('Director')
+        WRITER = 'WR', _('Writer')
+
     film_work = models.ForeignKey('FilmWork', on_delete=models.CASCADE)
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
-    role = models.TextField('role')
+    role = models.TextField('role',choices=RoleChoices.choices, default=RoleChoices.ACTOR)
     created = models.DateTimeField(auto_now_add=True) 
 
     class Meta:
@@ -63,7 +69,7 @@ class TypeChoices(models.TextChoices):
     TV_SHOW = 'tv_show', 'TV Show'
 
 class FilmWork(UUIDMixin, TimeStampedMixin):
-    title = models.CharField(_('title'), max_length=255, unique=True)
+    title = models.CharField(_('title'), max_length=255)
     description = models.TextField(_('description'), blank=True)
     creation_date = models.DateField()
     type = models.CharField(_('type'),max_length=20,choices=TypeChoices.choices)
